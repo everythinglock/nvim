@@ -26,9 +26,9 @@ return {
 				["core.dirman"] = { -- Manages Neorg workspaces
 					config = {
 						workspaces = {
-							notes = "~/documents/notes",
-							gtd = "~/documents/gtd",
-							journal = "~/documents/journal",
+							notes = "~/Documents/notes",
+							gtd = "~/Documents/gtd",
+							journal = "~/Documents/journal",
 						},
 						default_workspace = "gtd",
 					},

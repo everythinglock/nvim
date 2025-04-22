@@ -1,21 +1,24 @@
-if true then
-	return {}
-end
+-- if true then
+-- 	return {}
+-- end
 return {
 	"olimorris/codecompanion.nvim",
 	dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "nvim-telescope/telescope.nvim" },
 	opts = {
+		opts = {
+			language = "Chinese",
+		},
 		adapters = {
-			siliconflow = function()
+			chataiapi = function()
 				return require("codecompanion.adapters").extend("openai_compatible", {
 					env = {
-						url = "https://api.siliconflow.cn/v1",
-						api_key = vim.env.SILICONFLOW_API_KEY,
+						url = "https://api.chataiapi.com/v1",
+						api_key = vim.env.CHATAIAPI_API_KEY,
 						chat_url = "/chat/completions",
 					},
 					schema = {
 						model = {
-							default = "deepseek-ai/DeepSeek-V3",
+							default = "deepseek-v3",
 						},
 					},
 				})
@@ -36,8 +39,8 @@ return {
 			end,
 		},
 		strategies = {
-			chat = { adapter = "sophnet" }, -- 使用 Gemini 作为聊天适配器
-			inline = { adapter = "sophnet" }, -- 使用 Gemini 作为内联补全适配器
+			chat = { adapter = "chataiapi" },
+			inline = { adapter = "chataiapi" },
 		},
 	},
 	config = function(_, opts)
