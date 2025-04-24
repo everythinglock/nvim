@@ -1,49 +1,65 @@
-local map = vim.keymap.set
+local keymaps = {
+	-- Move Lines
+	{ "n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", "Move Down" },
+	{ "n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", "Move Up" },
+	{ "v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", "Move Down" },
+	{ "v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", "Move Up" },
 
--- Move Lines
-map("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
-map("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
-map("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
-map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
+	-- Add undo break-points
+	{ "i", ",", ",<c-g>u" },
+	{ "i", ".", ".<c-g>u" },
+	{ "i", ";", ";<c-g>u" },
+	{ "i", "。", "。<c-g>u" },
+	{ "i", "，", "，<c-g>u" },
+	{ "i", "；", "；<c-g>u" },
 
--- Add undo break-points
-map("i", ",", ",<c-g>u")
-map("i", ".", ".<c-g>u")
-map("i", ";", ";<c-g>u")
-map("i", "。", "。<c-g>u")
-map("i", "，", "，<c-g>u")
-map("i", "；", "；<c-g>u")
+	-- Window navigation
+	{ "n", "<C-h>", "<C-w><C-h>", "Move focus to the left window" },
+	{ "n", "<C-l>", "<C-w><C-l>", "Move focus to the right window" },
+	{ "n", "<C-j>", "<C-w><C-j>", "Move focus to the lower window" },
+	{ "n", "<C-k>", "<C-w><C-k>", "Move focus to the upper window" },
 
---  Use CTRL+<hjkl> to switch between windows
-map("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
-map("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
-map("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
-map("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+	-- Window resizing
+	{ "n", "<A-->", "<C-w><", "Decrease window width" },
+	{ "n", "<A-=>", "<C-w>>", "Increase window width" },
 
--- Adjust window sizes
-map("n", "<A-->", "<C-w><", { desc = "Decrease window width" })
-map("n", "<A-=>", "<C-w>>", { desc = "Increase window width" })
+	-- Save file
+	{ { "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr>", "Save File" },
 
--- save file
-map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
+	-- Quit
+	{ "n", "<leader>q", "<cmd>q<cr>", "Quit" },
+	{ "n", "<leader>Q", "<cmd>wqa<cr>", "Quit" },
 
--- quit
-map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-map("n", "<leader>Q", "<cmd>wqa<cr>", { desc = "Quit" })
+	-- Insert mode movement
+	{ { "i", "c" }, "<A-h>", "<left>", "left" },
+	{ { "i", "c" }, "<A-l>", "<right>", "right" },
+	{ { "i", "c" }, "<A-k>", "<up>", "up" },
+	{ { "i", "c" }, "<A-j>", "<down>", "down" },
+	{ { "i", "c" }, "<C-e>", "<end>", "end" },
+	{ { "i", "c" }, "<C-a>", "<home>", "home" },
 
--- move in insert
-map({ "i", "c" }, "<A-h>", "<left>", { desc = "left" })
-map({ "i", "c" }, "<A-l>", "<right>", { desc = "right" })
-map({ "i", "c" }, "<A-k>", "<up>", { desc = "up" })
-map({ "i", "c" }, "<A-j>", "<down>", { desc = "down" })
-map({ "i", "c" }, "<C-e>", "<end>", { desc = "end" })
-map({ "i", "c" }, "<C-a>", "<home>", { desc = "home" })
+	-- Escape
+	{ { "i", "v", "s", "n" }, ";j", "<ESC>", "ESCAPE" },
+	{ "t", ";j", "<C-\\><C-n>", "ESCAPE" },
+	{ "c", ";j", "<C-c>", "ESCAPE" },
 
--- escape
-map({ "i", "v", "s", "n" }, ";j", "<ESC>")
-map({ "t" }, ";j", "<C-\\><C-n>", { desc = "ESCAPE" })
-map({ "c" }, ";j", "<C-c>", { desc = "ESCAPE" })
+	-- Yank/Delete
+	{ { "n", "v" }, "<leader>yp", '"*p', "Paste *" },
+	{ "v", "<leader>yy", '"*y', "Yank *", noremap = true },
+}
 
--- yank/del
-map({ "n", "v" }, "<leader>yp", '"*p', { desc = "Paste *" })
-map("v", "<leader>yy", '"*y', { desc = "Yank *" })
+-- Apply all keymaps
+for _, keymap in ipairs(keymaps) do
+	local mode, lhs, rhs = keymap[1], keymap[2], keymap[3]
+	local opts = {}
+
+	-- 收集键值对形式的选项
+	for k, v in pairs(keymap) do
+		if type(k) == "string" then
+			opts[k] = v
+		elseif type(k) ~= "string" and k == 4 then
+			opts.desc = v
+		end
+	end
+	vim.keymap.set(mode, lhs, rhs, opts)
+end
