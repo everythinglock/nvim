@@ -7,10 +7,11 @@ return {
 		-- refer to the configuration section below
 		preset = "helix",
 		spec = {
-			{ "<leader>a", group = "Avante" },
+			{ "<leader>a", group = "Ai" },
 			{ "<leader>b", group = "Buffer" },
 			{ "<leader>c", group = "Code", mode = { "n", "x" } },
 			{ "<leader>f", group = "Find" },
+			{ "<leader>y", group = "Yank" },
 			{ "<leader>s", group = "Search" },
 			{ "<leader>S", group = "Session" },
 			{ "<leader>u", group = "Toggle" },

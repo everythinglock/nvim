@@ -31,7 +31,7 @@ map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 map("n", "<leader>Q", "<cmd>wqa<cr>", { desc = "Quit" })
 
--- move
+-- move in insert
 map({ "i", "c" }, "<A-h>", "<left>", { desc = "left" })
 map({ "i", "c" }, "<A-l>", "<right>", { desc = "right" })
 map({ "i", "c" }, "<A-k>", "<up>", { desc = "up" })
@@ -43,3 +43,7 @@ map({ "i", "c" }, "<C-a>", "<home>", { desc = "home" })
 map({ "i", "v", "s", "n" }, ";j", "<ESC>")
 map({ "t" }, ";j", "<C-\\><C-n>", { desc = "ESCAPE" })
 map({ "c" }, ";j", "<C-c>", { desc = "ESCAPE" })
+
+-- yank/del
+map({ "n", "v" }, "<leader>yp", '"*p', { desc = "Paste *" })
+map("v", "<leader>yy", '"*y', { desc = "Yank *" })

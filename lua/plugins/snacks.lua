@@ -18,12 +18,25 @@ return {
 		scope = {},
 		scroll = {},
 		words = {},
+		statuscolumn = {
+			left = { "mark", "sign" }, -- priority of signs on the left (high to low)
+			right = { "fold", "git" }, -- priority of signs on the right (high to low)
+			folds = {
+				open = false, -- show open fold icons
+				git_hl = false, -- use Git Signs hl for fold icons
+			},
+			git = {
+				-- patterns to match Git signs
+				patterns = { "GitSign", "MiniDiffSign" },
+			},
+			refresh = 50, -- refresh at most every 50ms
+		},
 		styles = {
 			float = {
 				position = "float",
 				backdrop = 60,
-				height = 0.8,
-				width = 0.8,
+				height = 0.9,
+				width = 0.9,
 				zindex = 50,
 			},
 		},
@@ -109,8 +122,8 @@ return {
 			function()
 				Snacks.win({
 					file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
-					width = 0.6,
-					height = 0.6,
+					width = 0.7,
+					height = 0.7,
 					wo = {
 						spell = false,
 						wrap = false,
