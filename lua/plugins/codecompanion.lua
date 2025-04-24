@@ -51,9 +51,9 @@ return {
 		vim.keymap.set("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
 		vim.keymap.set("v", "<C-c>", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 		-- Expand 'cc' into 'CodeCompanion' in the command line
-		vim.cmd([[cab c CodeCompanion]])
-		vim.cmd([[cab cc CodeCompanionCmd]])
-		vim.cmd([[cab ca CodeCompanionAction]])
+		vim.cmd([[cab cc CodeCompanion]])
+		vim.cmd([[cab ccc CodeCompanionCmd]])
+		vim.cmd([[cab cca CodeCompanionAction]])
 		-- stylua: ignore end
 	end,
 }

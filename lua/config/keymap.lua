@@ -3,8 +3,6 @@ local map = vim.keymap.set
 -- Move Lines
 map("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
 map("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
-map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
-map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
 map("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
 map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
@@ -34,10 +32,14 @@ map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 map("n", "<leader>Q", "<cmd>wqa<cr>", { desc = "Quit" })
 
 -- move
-map({ "i", "c" }, "<C-b>", "<left>", { desc = "left" })
-map({ "i", "c" }, "<C-f>", "<right>", { desc = "right" })
-map("i", "<C-e>", "<end>", { desc = "end" })
-map("i", "<C-a>", "<home>", { desc = "home" })
+map({ "i", "c" }, "<A-h>", "<left>", { desc = "left" })
+map({ "i", "c" }, "<A-l>", "<right>", { desc = "right" })
+map({ "i", "c" }, "<A-k>", "<up>", { desc = "up" })
+map({ "i", "c" }, "<A-j>", "<down>", { desc = "down" })
+map({ "i", "c" }, "<C-e>", "<end>", { desc = "end" })
+map({ "i", "c" }, "<C-a>", "<home>", { desc = "home" })
 
 -- escape
--- map({ "i", "x", "n", "c", "v" }, "jj", "<ESC>", { desc = "ESCAPE" })
+map({ "i", "v", "s", "n" }, ";j", "<ESC>")
+map({ "t" }, ";j", "<C-\\><C-n>", { desc = "ESCAPE" })
+map({ "c" }, ";j", "<C-c>", { desc = "ESCAPE" })
